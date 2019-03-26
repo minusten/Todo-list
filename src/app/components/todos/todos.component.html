@@ -1,4 +1,4 @@
-<div class="todos">
+<!-- <div class="todos">
 
     <div>
     <form (submit)="addTodo($event)">
@@ -29,5 +29,75 @@
       <div class="second-container">
     <button (click)="deleteSelectedTodos()" class="btn btn-light">Delete Selected</button>
     </div>
+</div> -->
+<div class="container">
+   <div class="row">
+       <div class="col-xs-12">
+           <h1> Запиши... </h1>
+       </div>
+   </div>
+</div>
 
+<div class="container">
+   <div class="row">
+       <div class="col-xs-8">
+           <input type="text" class="form-control" name="task" placeholder="Идея" #taskInput>
+       </div>
+
+       <div class="col-xs-4">
+           <button class="btn btn-outline-primary" (keyup.enter)="addTask()" (click)="addTask(taskInput)">Добавить</button>
+       </div>
+   </div>
+
+   <hr>
+
+   <div class="row">
+       <div class="col-xs-8">
+           <input type="text" class="form-control" name="filter" placeholder="Фильтр по" #filterInput>
+       </div>
+
+       <div class="col-xs-4">
+           <button class="btn btn-outline-primary" (click)="addFilter(filterInput)">Фильтр</button>
+           <button class="btn btn-outline-primary" (click)="clearFilter(filterInput)">Очистить</button>
+       </div>
+   </div>
+
+   <div class="row">
+       <div class="col-xs-12">
+           <table class="table table-striped">
+               <thead>
+                   <tr>
+                       <th>Отличная идея:</th>
+                   </tr>
+               </thead>
+               <tbody>
+                   <tr *ngFor="let task of filtered_tasks;">
+                       <td *ngIf="task.is_canceled; else elseTd">
+                           <s>{{ task.f_idx + 1 }}. {{task.title}}</s>
+                       </td>
+                       <ng-template #elseTd>
+                           <td>{{ task.f_idx + 1 }}. {{task.title}}</td>
+                       </ng-template>
+
+                       <td>
+                           <button class="btn btn-outline-primary" (click)="editTask(task.f_idx)"> Редактировать </button>
+                       </td>
+
+                       <td>
+                           <button class="btn btn-outline-warning" (click)="cancelTask(task.f_idx)"> Отметить </button>
+                       </td>
+                       <td>
+                           <button class="btn btn-outline-danger" (click)="deleteTask(task.f_idx)">Удалить</button>
+                       </td>
+                   </tr>
+
+               </tbody>
+               <tfoot>
+                   <tr>
+                           <button class="btn btn-outline-danger" (click)="clearToDo()">Очистить</button>
+                   </tr>
+               </tfoot>
+           </table>
+       </div>
+   </div>
 </div>

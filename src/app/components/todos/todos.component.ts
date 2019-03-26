@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 import { Router } from '@angular/router';
 
+interface Task{
+ title: string,
+ is_canceled: boolean,
+ f_idx: number
+}
   @Component({
     selector: 'app-todos',
     templateUrl: 'todos.component.html',
@@ -9,35 +14,106 @@ import { Router } from '@angular/router';
   })
 
   export class TodosComponent {
+    tasks: Array<Task> = [
+     {
+       title: "Выйти замуж",
+       is_canceled: false,
+       f_idx: null
+     },
+     {
+       title:"Родить сына",
+       is_canceled: false,
+       f_idx: null
+     },
+     {
+       title: "Посадить дерево",
+       is_canceled: false,
+       f_idx: null
+     }
+   ];
 
-    newTodo: string;
-    todos: any;
-    todoObj: any;
+   filtered_tasks: Array<Task> = [];
 
-    constructor() {
-      this.newTodo = '';
-      this.todos = [];
-    }
+   filter_by: string = "";
 
-    addTodo(event) {
-      this.todoObj = {
-        newTodo: this.newTodo,
-        completed: false
-      };
-      this.todos.push(this.todoObj);
-      this.newTodo = '';
-      event.preventDefault();
-    }
+   constructor(){
+     this.filterTasks();
+   }
 
-    deleteTodo(index) {
-      this.todos.splice(index, 1);
-    }
+   clearToDo(){
+     let do_delete = confirm("Are you sure to delete all tasks?");
+     if (do_delete){
+       this.tasks.splice(0);
+     }
+     this.filterTasks();
+   }
 
-    deleteSelectedTodos() {
-      for (let i = (this.todos.length - 1); i > -1; i--) {
-        if (this.todos[i].completed) {
-          this.todos.splice(i, 1);
-        }
-      }
-    }
+   addTask(input){
+     let value = input.value;
+     input.value = "";
+     this.tasks.push(
+       {
+         title: value,
+         is_canceled: false,
+         f_idx: null
+       });
+     this.filterTasks();
+   }
+
+   cancelTask(idx: number){
+     if (this.tasks[idx].is_canceled){
+       this.tasks[idx].is_canceled = false;
+     }else{
+       this.tasks[idx].is_canceled = true;
+     }
+     this.filterTasks();
+   }
+
+   deleteTask(idx: number){
+     let do_delete = confirm("Are you sure to delete the task?");
+     if (do_delete){
+       this.tasks.splice(idx, 1);
+       this.filterTasks();
+     }
+   }
+
+   editTask(idx: number){
+     let title = this.tasks[idx].title;
+     let result = prompt("Edit Task Title", title);
+     if (result !== null && result !== ""){
+       this.tasks[idx].title = result;
+       this.filterTasks();
+     }
+   }
+
+   filterTasks(){
+     let filtered_tasks: Array<Task> = [];
+     for(let idx=0; idx < this.tasks.length; idx++){
+       let task = this.tasks[idx];
+       if (task.title.toLowerCase().includes(this.filter_by)){
+         filtered_tasks.push(
+           <Task>{
+             title: task.title,
+             is_canceled: task.is_canceled,
+             f_idx: idx
+           }
+         );
+       }
+     }
+
+     this.filtered_tasks = filtered_tasks;
+   }
+
+   addFilter(filter_input){
+     let filter_by: string = filter_input.value;
+     filter_by = filter_by.toLowerCase();
+     this.filter_by = filter_by;
+     this.filterTasks();
+   }
+
+   clearFilter(filterInput){
+     filterInput.value = "";
+     this.filter_by = "";
+     this.filterTasks();
+   }
 }

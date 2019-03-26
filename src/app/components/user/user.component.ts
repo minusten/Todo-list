@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 import { Router } from '@angular/router';
 
@@ -12,5 +12,5 @@ import { Router } from '@angular/router';
     logout(): void {
          this.router.navigate(['login']);
         }
-   }
-
+      
+}

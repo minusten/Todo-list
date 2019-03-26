@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import {  UserService } from '../user/user.service';
@@ -11,7 +11,6 @@ import {  UserService } from '../user/user.service';
 export class RegisterComponent {
     model: any = {};
     loading = false;
-
     constructor(
         private router: Router,
         private userService: UserService) { }
@@ -21,11 +20,11 @@ export class RegisterComponent {
         this.userService.create(this.model)
             .subscribe(
                 data => {
-                    // set success message and pass true paramater to persist the message after redirecting to the login page
                     this.router.navigate(['/login']);
                 },
                 error => {
                     this.loading = false;
                 });
     }
+
 }

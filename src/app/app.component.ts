@@ -8,10 +8,10 @@ import { NgModel} from '@angular/forms';
   template: `
   <div class='app-container'>
   <nav class="navbar navbar-dark bg-dark">
-      <a routerLink="/home" >Home</a>
-      <a routerLink="/todos" >Todo List</a>
-      <a routerLink="/login" >Login</a>
-      <a routerLink="/register" >Register</a>
+      <a routerLink="/home" >Главная</a>
+      <a routerLink="/todos" >Идеи</a>
+      <a routerLink="/login" >Ввойти</a>
+      <a routerLink="/register" >Зарегистрироваться</a>
     </nav>
 
     <div>
